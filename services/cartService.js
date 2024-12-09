@@ -19,8 +19,13 @@ exports.processCheckout = (userId, couponCode) => {
   if (couponCode) {
     const coupon = store.coupons[couponCode];
     if (!coupon || !coupon.isValid) throw new Error("Invalid coupon code");
-    discount = (coupon.discountPercent / 100) * total;
-    total -= discount;
+    if (coupon.isUsed) {
+      console.log("This coupon has already been used");
+    } else {
+      discount = (coupon.discountPercent / 100) * total;
+      total -= discount;
+      coupon.isUsed = true;
+    }
   }
 
   const orderId = `ORD-${store.orders.length + 1}`;

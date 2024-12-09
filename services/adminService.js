@@ -3,8 +3,8 @@ const store = require("../data/store");
 exports.createCoupon = () => {
   const orderCount = store.orders.length;
   if (orderCount > 0 && orderCount % store.nthOrderThreshold === 0) {
-    const newCouponCode = `COUPON-${orderCount}`;
-    store.coupons[newCouponCode] = { isValid: true, discountPercent: 10 };
+    const newCouponCode = `COUPON-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+    store.coupons[newCouponCode] = { isValid: true, discountPercent: 10, isUsed: false };
     return { couponCode: newCouponCode, discountPercent: 10 };
   } else {
     throw new Error("Coupon generation condition not met");
